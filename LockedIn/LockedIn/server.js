@@ -3411,13 +3411,20 @@ app.post('/api/ml/predict-readiness', verifyToken, (req, res) => {
     return res.status(400).json({ error: 'Missing required parameters' });
   }
 
+  // Explicitly validate and sanitize inputs to prevent command injection
+  const safeAttendance = Number(attendance) || 0;
+  const safeLcEasy = Number(lc_easy) || 0;
+  const safeLcMedium = Number(lc_medium) || 0;
+  const safeLcHard = Number(lc_hard) || 0;
+  const safeStudyHours = Number(study_hours) || 15;
+
   const pythonProcess = spawn('python', [
     'ml/predict.py',
-    attendance || 0,
-    lc_easy || 0,
-    lc_medium || 0,
-    lc_hard || 0,
-    study_hours || 15
+    String(safeAttendance),
+    String(safeLcEasy),
+    String(safeLcMedium),
+    String(safeLcHard),
+    String(safeStudyHours)
   ]);
 
   let result = '';
@@ -3450,11 +3457,14 @@ app.post('/api/ml/predict-readiness', verifyToken, (req, res) => {
 app.post('/api/ml/sentiment', verifyToken, (req, res) => {
   const { text } = req.body;
   
-  if (!text) {
-    return res.status(400).json({ error: 'Missing text parameter' });
+  if (!text || typeof text !== 'string') {
+    return res.status(400).json({ error: 'Missing text parameter or invalid format' });
   }
 
-  const pythonProcess = spawn('python', ['ml/analyze_sentiment.py', text]);
+  // Sanitize the input for the child process
+  const sanitizedText = String(text).trim();
+
+  const pythonProcess = spawn('python', ['ml/analyze_sentiment.py', sanitizedText]);
   let result = '';
 
   pythonProcess.stdout.on('data', (data) => {
@@ -3483,11 +3493,15 @@ app.post('/api/ml/sentiment', verifyToken, (req, res) => {
 app.post('/api/ml/resume-match', verifyToken, (req, res) => {
   const { resume_text, jd_text } = req.body;
   
-  if (!resume_text || !jd_text) {
-    return res.status(400).json({ error: 'Missing resume_text or jd_text parameter' });
+  if (!resume_text || typeof resume_text !== 'string' || !jd_text || typeof jd_text !== 'string') {
+    return res.status(400).json({ error: 'Missing resume_text or jd_text parameter or invalid format' });
   }
 
-  const pythonProcess = spawn('python', ['ml/resume_matcher.py', resume_text, jd_text]);
+  // Sanitize the inputs for the child process explicitly
+  const sanitizedResume = String(resume_text).trim().slice(0, 100000); // safety cap
+  const sanitizedJd = String(jd_text).trim().slice(0, 100000); // safety cap
+
+  const pythonProcess = spawn('python', ['ml/resume_matcher.py', sanitizedResume, sanitizedJd]);
   let result = '';
 
   pythonProcess.stdout.on('data', (data) => {
