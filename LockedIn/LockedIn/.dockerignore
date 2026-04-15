@@ -1,0 +1,12 @@
+node_modules
+npm-debug.log
+.DS_Store
+.env
+.env.*
+.git
+.gitignore
+.vercelignore
+README.md
+scratch
+ml/__pycache__
+frontend/node_modules

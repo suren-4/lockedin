@@ -1,0 +1,32 @@
+{
+  "name": "lockedin-server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --env-file=.env --watch server.js",
+    "train-model": "python ml/train_model.py",
+    "setup-ml": "pip install -r ml/requirements.txt && python ml/data_pipeline.py && npm run train-model"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.1027.0",
+    "@sparticuz/chromium": "^143.0.4",
+    "axios": "^1.13.6",
+    "cheerio": "^1.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "express": "^4.21.2",
+    "express-rate-limit": "^8.3.2",
+    "helmet": "^8.1.0",
+    "http-proxy-middleware": "^3.0.5",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^1.4.5-lts.1",
+    "pdf-parse": "^1.1.1",
+    "puppeteer": "^24.0.0",
+    "puppeteer-core": "^24.39.1",
+    "reddy-api-srm": "^1.0.6",
+    "srm-get-attendance": "^1.0.9",
+    "xss-clean": "^0.1.4"
+  }
+}
