@@ -6,33 +6,41 @@ on:
   pull_request:
     branches: [ main, master ]
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build-and-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./LockedIn/LockedIn
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
 
     - name: Use Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
         node-version: '20.x'
         cache: 'npm'
+        cache-dependency-path: ./LockedIn/LockedIn/package-lock.json
 
     - name: Install dependencies
       run: npm install
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: '3.10'
+        cache: 'pip'
 
     - name: Install Python dependencies
       run: |
         pip install -r ml/requirements.txt || true
 
     - name: Run Lint
-      run: npm run lint || true
+      run: npm run lint --if-present || true
 
     - name: Security Audit
       run: npm audit || true
