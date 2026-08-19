@@ -1,3 +1,115 @@
+# LockedIn
+
+LockedIn is a small web application consisting of a backend and frontend that helps SRM students fetch academic data such as timetable and attendance, run lightweight ML utilities such as resume matching and sentiment analysis, and access a simple chatbot/utility API.
+
+The project includes a Node.js/Express backend that scrapes SRM Academia when required, a React + Vite frontend, and a small Python ML workspace for model training and predictions.
+
+---
+
+## Highlights
+
+- Login and scraping of SRM Academia to retrieve timetable and attendance data
+- Chatbot endpoint with configurable LLM integration
+- Resume matching using Python-based ML utilities
+- Sentiment analysis using a trained ML model
+- Docker and Docker Compose support
+- Vercel configuration for frontend hosting
+- File upload and document parsing support
+- JWT-based authentication
+- Optional AWS S3 integration
+
+---
+
+## Tech Stack
+
+### Languages
+
+- JavaScript
+- Python
+
+### Backend
+
+- Node.js
+- Express.js
+- REST APIs
+
+### Frontend
+
+- React
+- Vite
+
+### Machine Learning
+
+- Python
+- Scikit-learn
+- Pickle-based models
+
+### Web Scraping
+
+- Puppeteer
+- Puppeteer Core
+- Cheerio
+
+### Security and Backend Libraries
+
+- Express
+- Helmet
+- CORS
+- Express Rate Limit
+- JSON Web Token (JWT)
+- Multer
+- PDF-Parse
+
+### Cloud
+
+- AWS S3
+
+### DevOps and Deployment
+
+- Docker
+- Docker Compose
+- Vercel
+
+---
+
+## Repository Structure
+
+```text
+LockedIn/
+└── LockedIn/
+    ├── .dockerignore
+    ├── .env.example
+    ├── Dockerfile
+    ├── docker-compose.yml
+    ├── package.json
+    ├── package-lock.json
+    ├── server.js
+    ├── timetableData.js
+    ├── patch_login.js
+    ├── vercel.json
+    │
+    ├── frontend/
+    │   ├── README.md
+    │   ├── package.json
+    │   └── src/
+    │
+    ├── ml/
+    │   ├── data_pipeline.py
+    │   ├── train_model.py
+    │   ├── predict.py
+    │   ├── resume_matcher.py
+    │   ├── analyze_sentiment.py
+    │   ├── requirements.txt
+    │   ├── model.pkl
+    │   └── sentiment_model.pkl
+    │
+    ├── srm-scraper/
+    │   └── additional scraper utilities
+    │
+    ├── scratch/
+    │   └── experimentation
+    │
+    └── test_*.js
 # LockedIn Backend
 
 This backend provides APIs used by the frontend app:
